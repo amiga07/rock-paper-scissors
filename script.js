@@ -8,53 +8,90 @@ function playRound(humanSelection, computerSelection){
     switch (humanSelection){
         case "paper":
             if (computerSelection === "rock"){
-                return "You win! Paper beats Rock";
+                p.textContent = "You win! Paper beats Rock";
+                humanScore++;
+                break;
             } else if (computerSelection === "scissors") {
-                return "You lose! Scissors beat Paper";
+                p.textContent = "You lose! Scissors beat Paper";
+                computerScore++;
+                break;
             }
             else {
-                return "it's a tie";
+                p.textContent = "It's a tie!";
+                break;
             }
         case "rock":
             if (computerSelection === "scissors"){
-                return "You win! Rock beats Scissors";
+                p.textContent = "You win! Rock beats Scissors";
+                humanScore++;
+                break;
             } else if (computerSelection === "paper"){
-                return "You lose! Paper beats Rock";
+                p.textContent = "You lose! Paper beats Rock";
+                computerScore++;
+                break;
             } else{
-                return "it's a tie"; }    
+                p.textContent = "It's a tie!";
+                break;
+            }  
         case "scissors":
             if (computerSelection === "paper"){
-                return "You win! Scissors beat Paper";
-            } else if (computerChoice === "rock"){
-                return "You lose! Rock beats Scissors";
+                p.textContent = "You win! Scissors beat Paper";
+                humanScore++;
+                break;
+            } else if (computerSelection === "rock"){
+                p.textContent = "You lose! Rock beats Scissors";
+                computerScore++;
+                break;
             } else{
-                return "Oh, nothing happened, continue";
+                p.textContent = "Oh, nothing happened, continue";
+                break;
             }
+    }};
+function whoIsTheWinner(){
+    if (humanScore === 5){
+        h2.textContent = `Congratss!!! You f-ing won! ${humanScore} : ${computerScore}`;
+        callFunction = true;
+    } 
+    if (computerScore === 5){
+        h2.textContent = `You're a f-ing loser! ${humanScore} : ${computerScore}`;
+        callFunction = true;
     }
-
-    }
-function playGame(){
-    let humanScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++){
-        const humanSelection = prompt("Rock, paper or scissors", "Paper");
-        const computerSelection = getComputerChoice();
-        const result = playRound(humanSelection, computerSelection);
-        console.log(result);
-        if (result.includes("win")){
-            humanScore++;
-        } else if (result.includes("lose")){
-            computerScore++;
-        } 
-    }
-    if (humanScore > computerScore){
-        console.log("Congrats, you win the game!!!");
-    } else if(computerScore > humanScore){
-        console.log("Unfortunately, you lose the game");
-    } else{
-        console.log("It's a tie! The game ends in a draw");
+    if (callFunction === true){
+        buttonPaper.style.display = 'none';
+        buttonRock.style.display = 'none';
+        buttonScissors.style.display = 'none';
     }
 }
-playGame();
-
+function scores(computerScore, humanScore){
+    compPoints.textContent = `Human score: ${humanScore} Computer score: ${computerScore}`;
+}
+const outcome = document.querySelector('.outcome');
+let callFunction = false;
+let humanScore = 0;
+let computerScore = 0;
+const humanPoints = document.querySelector('.human-score');
+const compPoints = document.querySelector('.comp-score');
+const buttonRock = document.querySelector('.rock');
+const buttonPaper = document.querySelector('.paper');
+const buttonScissors = document.querySelector('.scissors');
+const parentDiv = document.querySelector('.container');
+const p = document.createElement('p');
+const h2 = document.createElement('h2');
+outcome.appendChild(h2);
+parentDiv.appendChild(p);
+buttonPaper.addEventListener('click',  () => {
+    playRound('paper',getComputerChoice());
+    scores(computerScore, humanScore);
+    whoIsTheWinner();
+});
+buttonRock.addEventListener('click',  () => {
+    playRound('rock',getComputerChoice());
+    scores(computerScore, humanScore);
+    whoIsTheWinner();
+});
+buttonScissors.addEventListener('click',  () => {
+    playRound('scissors',getComputerChoice());
+    scores(computerScore, humanScore);
+    whoIsTheWinner();
+});
 
